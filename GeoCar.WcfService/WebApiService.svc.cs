@@ -10,7 +10,6 @@ namespace GeoCar.WcfService
 {
     public class WebApiService : IWebApiService
     {
-        [WebGet]
         public string marco()
         {
             return "polo";

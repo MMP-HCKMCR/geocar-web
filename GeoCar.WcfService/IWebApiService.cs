@@ -14,6 +14,7 @@ namespace GeoCar.WcfService
     {
 
         [OperationContract]
+        [WebInvoke(Method = "GET", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string marco();
 
     }
