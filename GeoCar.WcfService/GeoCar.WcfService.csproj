@@ -85,6 +85,16 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GeoCar.Database\GeoCar.Database.csproj">
+      <Project>{1cb7b58d-c478-4006-b02c-459a081785ab}</Project>
+      <Name>GeoCar.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeoCar.Model\GeoCar.Model.csproj">
+      <Project>{5c654dee-e493-4d98-80b9-921fbffa484f}</Project>
+      <Name>GeoCar.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

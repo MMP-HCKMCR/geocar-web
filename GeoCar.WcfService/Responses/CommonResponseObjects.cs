@@ -12,12 +12,12 @@ namespace GeoCar.WcfService.Responses
         public bool Success { get; set; }
 
         [DataMember]
-        public IList<string> Errors { get; set; }
+        public int ErrorId { get; set; }
 
         public ApiResult()
         {
             Success = false;
-            Errors = new List<string>(0);
+            ErrorId = 0;
         }
     }
 

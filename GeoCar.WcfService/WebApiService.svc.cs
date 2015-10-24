@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
-
+using GeoCar.Database;
 using GeoCar.WcfService.Requests;
 using GeoCar.WcfService.Responses;
 
@@ -24,29 +24,25 @@ namespace GeoCar.WcfService
 
         public LoginResponse Login(LoginRequest request)
         {
-            var response = new LoginResponse();
-            
-            if (string.IsNullOrEmpty(request.EmailAddress))
-            {
-                response.Errors.Add("Parameter 'EmailAddress' is missing");
-                response.Success = false;
-            }
-            if (string.IsNullOrEmpty(request.UserPassword))
-            {
-                response.Errors.Add("Parameter 'UserPassword' is missing");
-                response.Success = false;
-            }
+            var userRepository = new UserRepository();
+            var loginResult = userRepository.LogInUser(request.EmailAddress, request.UserPassword);
 
-            if (response.Errors.Count > 0)
+            if (loginResult.ErrorNumber == 0)
             {
-                return response;
+                return new LoginResponse
+                {
+                    ErrorId = 0,
+                    SessionID = loginResult.SessionId,
+                    Success = true
+                };
             }
 
-            // TODO: un-stub
-
-            response.Success = true;
-            response.SessionID = "abcd1234abcd1234efef5678efef5678";
-            return response;
+            return new LoginResponse
+            {
+                ErrorId = loginResult.ErrorNumber,
+                SessionID = string.Empty,
+                Success = false
+            };
         }
     }
 }
