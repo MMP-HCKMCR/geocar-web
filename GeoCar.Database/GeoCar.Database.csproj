@@ -46,6 +46,7 @@
     <Compile Include="SessionRepository.cs" />
     <Compile Include="TagRepository.cs" />
     <Compile Include="TagTypeRepository.cs" />
+    <Compile Include="TransactionRepository.cs" />
     <Compile Include="UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
