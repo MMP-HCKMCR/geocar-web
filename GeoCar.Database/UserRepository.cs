@@ -8,11 +8,11 @@ namespace GeoCar.Database
 {
     public static class UserRepository
     {
-        public static Session LogInUser(string email, string password)
+        public static Session LogInUser(string emailAddress, string userPassword)
         {
-            var user = RetrieveUser(email);
+            var user = RetrieveUser(emailAddress);
 
-            return user != null ? SessionRepository.CreateSession(email) : SessionRepository.InvalidSession();
+            return user != null && user.Password == userPassword ? SessionRepository.CreateSession(emailAddress) : SessionRepository.InvalidSession();
         }
 
         public static User RetrieveUser(string email)
