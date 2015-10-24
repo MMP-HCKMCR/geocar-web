@@ -43,6 +43,7 @@
     <Compile Include="ModelBase.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Tag.cs" />
+    <Compile Include="TagType.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

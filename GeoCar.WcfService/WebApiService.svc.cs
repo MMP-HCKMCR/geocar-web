@@ -51,6 +51,8 @@ namespace GeoCar.WcfService
                                                 request.BeaconMajorVersion,
                                                 request.BeaconMinorVersion);
 
+            var tagType = TagTypeRepository.RetrieveTagType(tag.TagTypeId);
+
             return new RegisterTagResponse
             {
                 PointsScored = 0,

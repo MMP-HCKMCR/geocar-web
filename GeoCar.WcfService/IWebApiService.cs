@@ -25,5 +25,13 @@ namespace GeoCar.WcfService
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         LoginResponse Login(LoginRequest request);
         #endregion
+
+        #region Tag Register
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        RegisterTagResponse RegisterTag(RegisterTagRequest request);
+
+        #endregion
     }
 }
