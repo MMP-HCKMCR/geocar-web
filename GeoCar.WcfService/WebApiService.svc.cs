@@ -32,15 +32,16 @@ namespace GeoCar.WcfService
                 return new LoginResponse
                 {
                     ErrorId = 0,
-                    SessionID = loginResult.SessionId,
-                    Success = true
+                    SessionId = loginResult.SessionId,
+                    Success = true,
+                    UserId = loginResult.UserId
                 };
             }
 
             return new LoginResponse
             {
                 ErrorId = loginResult.ErrorNumber,
-                SessionID = string.Empty,
+                SessionId = string.Empty,
                 Success = false
             };
         }

@@ -19,6 +19,7 @@ namespace GeoCar.Database
                 var command = new SqlCommand
                 {
                     Connection = con,
+                    CommandText = spName,
                     CommandType = CommandType.StoredProcedure,
                     CommandTimeout = 30
                 };

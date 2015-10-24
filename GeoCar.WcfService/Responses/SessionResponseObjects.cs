@@ -9,6 +9,9 @@ namespace GeoCar.WcfService.Responses
         public LoginResponse() : base() { }
 
         [DataMember]
-        public string SessionID { get; set; }
+        public string SessionId { get; set; }
+
+        [DataMember]
+        public int UserId { get; set; }
     }
 }

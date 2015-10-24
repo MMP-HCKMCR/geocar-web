@@ -29,7 +29,7 @@ namespace GeoCar.Database
 
             var dataTable = PerformAction("GetUserForEmail", parameters);
 
-            return dataTable != null ? PopulateUser(dataTable.Rows[0]) : null;
+            return dataTable != null && dataTable.Rows.Count > 0 ? PopulateUser(dataTable.Rows[0]) : null;
         }
 
         private List<User> PopulateUser(DataTable userTable)
