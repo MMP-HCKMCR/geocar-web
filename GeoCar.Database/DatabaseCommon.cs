@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace GeoCar.Database
 {
@@ -42,6 +43,14 @@ namespace GeoCar.Database
         internal static T ConvertRow<T>(DataTable dataTable, Func<DataRow, T> ifRowExists)
         {
             return (dataTable.Rows.Count > 0) ? ifRowExists(dataTable.Rows[0]) : default(T);
+        }
+
+        internal static IList<T> ConvertTable<T>(DataTable dataTable, Func<DataRow, T> forRow)
+        {
+            if (dataTable == null)
+                return null;
+
+            return dataTable.AsEnumerable().Select(forRow).ToList();
         }
     }
 }

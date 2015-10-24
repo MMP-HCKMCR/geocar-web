@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LeaderboardEntry.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Tag.cs" />

@@ -30,11 +30,15 @@ namespace GeoCar.WcfService
         ApiResult Logout(LogoutRequest request);
         #endregion
 
-        #region Tag Register
+        #region Tagging CRUD
 
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         RegisterTagResponse RegisterTag(RegisterTagRequest request);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //LeaderboardResponseObject GetLeaderboard(LeaderboardRequestObject request);
 
         #endregion
     }

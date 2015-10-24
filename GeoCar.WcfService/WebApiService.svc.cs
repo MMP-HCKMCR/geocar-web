@@ -69,9 +69,8 @@ namespace GeoCar.WcfService
                     NewPointsTotal = 0,
                     UsablePoints = 0,
                     Achievement = String.Empty,
-                    Top10 = new List<ScoreBoardResponseObject>(),
+                    Top10 = new LeaderboardResponseObject[0],
                     Ranking = 0,
-                    PossitionMove = false,
                     LockoutTime = 0,
                     Success = false,
                     ErrorMessage = "Tag not active"
@@ -79,7 +78,6 @@ namespace GeoCar.WcfService
             }
 
             var user = UserRepository.RetrieveUser(request.SessionId);
-
             var tagType = TagTypeRepository.RetrieveTagType(tag.TagTypeId);
 
             if (TagRepository.CheckTagIsWithinTimeout(user.UserId, tag.TagId, tagType.LockoutTimePeriod))
@@ -90,9 +88,8 @@ namespace GeoCar.WcfService
                     NewPointsTotal = 0,
                     UsablePoints = 0,
                     Achievement = String.Empty,
-                    Top10 = new List<ScoreBoardResponseObject>(),
+                    Top10 = new LeaderboardResponseObject[0],
                     Ranking = 0,
-                    PossitionMove = false,
                     LockoutTime = 0,
                     Success = false,
                     ErrorMessage = "Tag seen within Timeout"
@@ -100,7 +97,7 @@ namespace GeoCar.WcfService
             }
 
 
-
+            var leaderboard = UserRepository.RetrieveTopLeaderboard(3, user.UserId);
             user.Score = user.Score + tagType.Points + tag.AdditionalPoints;
 
             user = UserRepository.UpdateUser(user);
@@ -111,13 +108,26 @@ namespace GeoCar.WcfService
                 NewPointsTotal = 0,
                 UsablePoints = 0,
                 Achievement = String.Empty,
-                Top10 = new List<ScoreBoardResponseObject>(),
-                Ranking = 0,
-                PossitionMove = false,
+                Top10 = leaderboard.Select(LeaderboardResponseObject.FromModel).ToArray(),
+                Ranking = leaderboard.Where(entry => entry.IsCurrentUser).Select(entry => entry.Position).FirstOrDefault<int>(),
+                PositionMove = false,
                 LockoutTime = 0,
                 Success = true,
                 ErrorMessage = string.Empty
             };
         }
+
+        //public LeaderboardResponseObject GetLeaderboard(LeaderboardRequestObject request)
+        //{
+        //    var session = SessionRepository.RetrieveSession(request.SessionId);
+        //    if (session == null)
+        //    {
+        //        return new LeaderboardResponseObject
+        //        {
+        //            Success = false,
+        //            ErrorMessage = "InvalidSessionId",
+        //        };
+        //    }
+        //}
     }
 }

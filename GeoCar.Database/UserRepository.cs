@@ -86,6 +86,19 @@ namespace GeoCar.Database
             return DatabaseCommon.ConvertRow(dataTable, PopulateUser);
         }
 
+        public static IList<LeaderboardEntry> RetrieveTopLeaderboard(int rowCount, int? currentUserId = null)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("rowCount", rowCount),
+                new SqlParameter("userId", currentUserId)
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("GetTopLeaderboardInfo", parameters);
+
+            return DatabaseCommon.ConvertTable(dataTable, LeaderboardEntry.FromDataRow);
+        }
+
         private static List<User> PopulateUser(DataTable userTable)
         {
             return (from DataRow dataRow in userTable.Rows select PopulateUser(dataRow)).ToList();
