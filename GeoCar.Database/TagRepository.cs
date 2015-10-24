@@ -6,9 +6,9 @@ using GeoCar.Model;
 
 namespace GeoCar.Database
 {
-    internal static class TagRepository
+    public static class TagRepository
     {
-        public static Tag RetrieveTag(string UUID, int majorNumber, int minorNumber)
+        public static Tag RetrieveTag(Guid UUID, int majorNumber, int minorNumber)
         {
             var parameters = new List<SqlParameter>
             {

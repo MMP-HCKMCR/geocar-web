@@ -16,5 +16,11 @@ namespace GeoCar.WcfService.Responses
         public string Achievement { get; set; }
         [DataMember]
         public List<ScoreBoardResponseObject> Top10 { get; set; }
+        [DataMember]
+        public int Ranking { get; set; }
+        [DataMember]
+        public bool PossitionMove { get; set; }
+        [DataMember]
+        public int LockoutTime { get; set; }
     }
 }
