@@ -6,18 +6,16 @@ using GeoCar.Model;
 
 namespace GeoCar.Database
 {
-    public class UserRepository : DatabaseBase
+    public static class UserRepository
     {
-        public Session LogInUser(string email, string password)
+        public static Session LogInUser(string email, string password)
         {
-            var sessionRepository = new SessionRepository();
-
             var user = RetrieveUser(email);
 
-            return user != null ? sessionRepository.CreateSession(email) : sessionRepository.InvalidSession();
+            return user != null ? SessionRepository.CreateSession(email) : SessionRepository.InvalidSession();
         }
 
-        public User RetrieveUser(string email)
+        public static User RetrieveUser(string email)
         {
             var parameters = new List<SqlParameter>
             { new SqlParameter
@@ -27,17 +25,17 @@ namespace GeoCar.Database
                 }
             };
 
-            var dataTable = PerformAction("GetUserForEmail", parameters);
+            var dataTable = DatabaseCommon.PerformAction("GetUserForEmail", parameters);
 
             return dataTable != null && dataTable.Rows.Count > 0 ? PopulateUser(dataTable.Rows[0]) : null;
         }
 
-        private List<User> PopulateUser(DataTable userTable)
+        private static List<User> PopulateUser(DataTable userTable)
         {
             return (from DataRow dataRow in userTable.Rows select PopulateUser(dataRow)).ToList();
         }
 
-        private User PopulateUser(DataRow user)
+        private static User PopulateUser(DataRow user)
         {
             return new User
             {

@@ -24,8 +24,7 @@ namespace GeoCar.WcfService
 
         public LoginResponse Login(LoginRequest request)
         {
-            var userRepository = new UserRepository();
-            var loginResult = userRepository.LogInUser(request.EmailAddress, request.UserPassword);
+            var loginResult = UserRepository.LogInUser(request.EmailAddress, request.UserPassword);
 
             if (loginResult.ErrorNumber == 0)
             {

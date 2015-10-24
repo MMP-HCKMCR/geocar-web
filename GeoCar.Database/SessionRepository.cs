@@ -9,12 +9,11 @@ using GeoCar.Model;
 
 namespace GeoCar.Database
 {
-    public class SessionRepository : DatabaseBase
+    public static class SessionRepository
     {
-        public Session CreateSession(string email)
+        public static Session CreateSession(string email)
         {
-            var userRepository = new UserRepository();
-            var user = userRepository.RetrieveUser(email);
+            var user = UserRepository.RetrieveUser(email);
 
             if (user == null)
             {
@@ -33,12 +32,12 @@ namespace GeoCar.Database
                     }
                 };
 
-            var dataTable = PerformAction("AddSession", parameters);
+            var dataTable = DatabaseCommon.PerformAction("AddSession", parameters);
 
             return dataTable != null ? PopulateSession(dataTable.Rows[0]) : InvalidSession();
         }
 
-        private Session PopulateSession(DataRow session)
+        private static Session PopulateSession(DataRow session)
         {
             return new Session
             {
@@ -47,7 +46,7 @@ namespace GeoCar.Database
             };
         }
 
-        public Session InvalidSession()
+        public static Session InvalidSession()
         {
             return new Session
             {

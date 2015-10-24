@@ -6,9 +6,9 @@ using System.Data.SqlClient;
 
 namespace GeoCar.Database
 {
-    public class DatabaseBase
+    internal static class DatabaseCommon
     {
-        protected DataTable PerformAction(string spName, List<SqlParameter> parameters)
+        internal static DataTable PerformAction(string spName, List<SqlParameter> parameters)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
