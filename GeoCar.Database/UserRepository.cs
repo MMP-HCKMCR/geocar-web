@@ -31,6 +31,46 @@ namespace GeoCar.Database
             return DatabaseCommon.ConvertRow(dataTable, PopulateUser);
         }
 
+        public static User UpdateUser(User user)
+        {
+            var parameters = new List<SqlParameter>
+            { new SqlParameter
+                {
+                    ParameterName = "UserId",
+                    Value = user.UserId
+                },
+                new SqlParameter
+                {
+                    ParameterName = "Email",
+                    Value = user.Email
+                },
+                new SqlParameter
+                {
+                    ParameterName = "Password",
+                    Value = user.Password
+                },
+                new SqlParameter
+                {
+                    ParameterName = "FirstName",
+                    Value = user.FirstName
+                },
+                new SqlParameter
+                {
+                    ParameterName = "Surname",
+                    Value = user.Surname
+                },
+                new SqlParameter
+                {
+                    ParameterName = "Score",
+                    Value = user.Score
+                }
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("UpdateUser", parameters);
+
+            return DatabaseCommon.ConvertRow(dataTable, PopulateUser);
+        }
+
         public static User RetrieveUser(Guid sessionId)
         {
             var parameters = new List<SqlParameter>

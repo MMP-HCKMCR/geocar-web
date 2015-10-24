@@ -61,11 +61,49 @@ namespace GeoCar.WcfService
                                                 request.BeaconMajorVersion,
                                                 request.BeaconMinorVersion);
 
-            var tagType = TagTypeRepository.RetrieveTagType(tag.TagTypeId);
+            if (!tag.Active)
+            {
+                return new RegisterTagResponse
+                {
+                    PointsScored = 0,
+                    NewPointsTotal = 0,
+                    UsablePoints = 0,
+                    Achievement = String.Empty,
+                    Top10 = new List<ScoreBoardResponseObject>(),
+                    Ranking = 0,
+                    PossitionMove = false,
+                    LockoutTime = 0,
+                    Success = false,
+                    ErrorMessage = "Tag not active"
+                };
+            }
 
             var user = UserRepository.RetrieveUser(request.SessionId);
 
+            var tagType = TagTypeRepository.RetrieveTagType(tag.TagTypeId);
 
+            if (TagRepository.CheckTagIsWithinTimeout(user.UserId, tag.TagId, tagType.LockoutTimePeriod))
+            {
+                return new RegisterTagResponse
+                {
+                    PointsScored = 0,
+                    NewPointsTotal = 0,
+                    UsablePoints = 0,
+                    Achievement = String.Empty,
+                    Top10 = new List<ScoreBoardResponseObject>(),
+                    Ranking = 0,
+                    PossitionMove = false,
+                    LockoutTime = 0,
+                    Success = false,
+                    ErrorMessage = "Tag seen within Timeout"
+                };
+            }
+
+
+
+            user.Score = user.Score + tagType.Points + tag.AdditionalPoints;
+
+            user = UserRepository.UpdateUser(user);
 
             return new RegisterTagResponse
             {

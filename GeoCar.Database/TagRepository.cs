@@ -29,12 +29,35 @@ namespace GeoCar.Database
                 }
             };
 
-
-
-
             var dataTable = DatabaseCommon.PerformAction("GetTagForUUIDMajorAndMinorNumber", parameters);
 
             return dataTable != null && dataTable.Rows.Count > 0 ? PopulateTag(dataTable.Rows[0]) : null;
+        }
+
+        public static bool CheckTagIsWithinTimeout(int userId, int tagId, int tagLockTime)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter
+                {
+                    ParameterName = "UserId",
+                    Value = userId
+                },
+                new SqlParameter
+                {
+                    ParameterName = "tagId",
+                    Value = tagId
+                },
+                new SqlParameter
+                {
+                    ParameterName = "tagLockTime",
+                    Value = tagLockTime
+                }
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("CheckTagRegsterValid", parameters);
+
+            return dataTable != null && dataTable.Rows.Count > 0;
         }
 
         private static Tag PopulateTag(DataRow tag)
