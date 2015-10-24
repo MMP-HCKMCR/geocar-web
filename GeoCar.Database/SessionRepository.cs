@@ -35,7 +35,7 @@ namespace GeoCar.Database
 
             var dataTable = PerformAction("AddSession", parameters);
 
-            return dataTable != null ? PopulateSession(dataTable.Rows[0]) : null;
+            return dataTable != null ? PopulateSession(dataTable.Rows[0]) : InvalidSession();
         }
 
         private Session PopulateSession(DataRow session)
@@ -44,6 +44,14 @@ namespace GeoCar.Database
             {
                 SessionId = session.Field<string>("SessionId"),
                 UserId = session.Field<int>("UserId")
+            };
+        }
+
+        public Session InvalidSession()
+        {
+            return new Session
+            {
+                ErrorNumber = 1001
             };
         }
     }
