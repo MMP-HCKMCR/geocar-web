@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using GeoCar.Database;
+using GeoCar.Model;
 using GeoCar.WcfService.Requests;
 using GeoCar.WcfService.Responses;
 
@@ -63,57 +64,65 @@ namespace GeoCar.WcfService
 
             if (tag == null || !tag.Active)
             {
-                return new RegisterTagResponse
-                {
-                    PointsScored = 0,
-                    NewPointsTotal = 0,
-                    UsablePoints = 0,
-                    Achievement = String.Empty,
-                    Top10 = new LeaderboardResponseObject[0],
-                    Ranking = 0,
-                    LockoutTime = 0,
-                    Success = false,
-                    ErrorMessage = "Tag not active"
-                };
+                return CreateFailedTagResponse("Tag not active");
             }
 
             var user = UserRepository.RetrieveUser(request.SessionId);
-            var tagType = TagTypeRepository.RetrieveTagType(tag.TagTypeId);
 
-            if (TagRepository.CheckTagIsWithinTimeout(user.UserId, tag.TagId, tagType.LockoutTimePeriod))
+            if (user == null)
             {
-                return new RegisterTagResponse
-                {
-                    PointsScored = 0,
-                    NewPointsTotal = 0,
-                    UsablePoints = 0,
-                    Achievement = String.Empty,
-                    Top10 = new LeaderboardResponseObject[0],
-                    Ranking = 0,
-                    LockoutTime = 0,
-                    Success = false,
-                    ErrorMessage = "Tag seen within Timeout"
-                };
+                return CreateFailedTagResponse("Session not Valid");
             }
 
+            var tagType = TagTypeRepository.RetrieveTagType(tag.TagTypeId);
 
-            var leaderboard = UserRepository.RetrieveTopLeaderboard(3, user.UserId);
-            user.Score = user.Score + tagType.Points + tag.AdditionalPoints;
+            if (tagType == null)
+            {
+                return CreateFailedTagResponse("Invalid Tag Type");
+            }
+
+            if (TagRepository.CheckTagIsNotWithinTimeout(user.UserId, tag.TagId, tagType.LockoutTimePeriod))
+            {
+                return CreateFailedTagResponse("Tag seen within Timeout");
+            }
+
+            var pointsScored = tagType.Points + tag.AdditionalPoints;
+
+            //TODO: Achievements
+
+            var transaction = TransactionRepository.CreateTransactionForUserAndTag(user.UserId, pointsScored, tag.TagId, TransactionType.Tag);
+
+            user.Score = user.Score + pointsScored;
 
             user = UserRepository.UpdateUser(user);
 
+            return new RegisterTagResponse
+            {
+                PointsScored = pointsScored,
+                NewPointsTotal = user.Score,
+                UsablePoints = 0,
+                Achievement = String.Empty,
+                Top10 = new LeaderboardResponseObject[0],
+                Ranking = 0,
+                LockoutTime = tagType.LockoutTimePeriod,
+                Success = true,
+                ErrorMessage = string.Empty
+            };
+        }
+
+        private static RegisterTagResponse CreateFailedTagResponse(string errorMesssage)
+        {
             return new RegisterTagResponse
             {
                 PointsScored = 0,
                 NewPointsTotal = 0,
                 UsablePoints = 0,
                 Achievement = String.Empty,
-                Top10 = leaderboard.Select(LeaderboardResponseObject.FromModel).ToArray(),
-                Ranking = leaderboard.Where(entry => entry.IsCurrentUser).Select(entry => entry.Position).FirstOrDefault<int>(),
-                PositionMove = false,
+                Top10 = new LeaderboardResponseObject[0],
+                Ranking = 0,
                 LockoutTime = 0,
-                Success = true,
-                ErrorMessage = string.Empty
+                Success = false,
+                ErrorMessage = errorMesssage
             };
         }
 

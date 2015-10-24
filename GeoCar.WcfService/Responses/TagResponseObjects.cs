@@ -19,8 +19,6 @@ namespace GeoCar.WcfService.Responses
         [DataMember]
         public int Ranking { get; set; }
         [DataMember]
-        public bool PositionMove { get; set; }
-        [DataMember]
         public int LockoutTime { get; set; }
     }
 }

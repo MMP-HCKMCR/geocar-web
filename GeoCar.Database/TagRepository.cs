@@ -34,7 +34,7 @@ namespace GeoCar.Database
             return dataTable != null && dataTable.Rows.Count > 0 ? PopulateTag(dataTable.Rows[0]) : null;
         }
 
-        public static bool CheckTagIsWithinTimeout(int userId, int tagId, int tagLockTime)
+        public static bool CheckTagIsNotWithinTimeout(int userId, int tagId, int tagLockTime)
         {
             var parameters = new List<SqlParameter>
             {
@@ -57,7 +57,7 @@ namespace GeoCar.Database
 
             var dataTable = DatabaseCommon.PerformAction("CheckTagRegsterValid", parameters);
 
-            return dataTable != null && dataTable.Rows.Count > 0;
+            return dataTable == null || dataTable.Rows.Count > 0;
         }
 
         private static Tag PopulateTag(DataRow tag)

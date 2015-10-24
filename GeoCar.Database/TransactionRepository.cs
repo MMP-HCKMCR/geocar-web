@@ -2,15 +2,35 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GeoCar.Model;
 
 namespace GeoCar.Database
 {
     public class TransactionRepository
     {
+        public static Transaction CreateTransactionForUserAndTag(int userId, int points, int tagId, TransactionType transactionTypeId)
+        {
+            var transaction = CreateTransaction(userId, points, transactionTypeId);
+
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter
+                {
+                    ParameterName = "tagId",
+                    Value = tagId
+                },
+                new SqlParameter
+                {
+                    ParameterName = "transactionId",
+                    Value = transaction.TransactionId
+                }
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("AddTransactionTag", parameters);
+
+            return dataTable != null && dataTable.Rows.Count > 0 ? PopulateTransaction(dataTable.Rows[0]) : null;
+        }
+
         public static Transaction CreateTransaction(int userId, int points, TransactionType transactionTypeId)
         {
             var parameters = new List<SqlParameter>
