@@ -12,7 +12,7 @@ namespace GeoCar.Database
         {
             var user = RetrieveUser(emailAddress);
 
-            return user != null && user.Password == userPassword ? SessionRepository.CreateSession(emailAddress) : SessionRepository.InvalidSession();
+            return user != null && user.Password == userPassword ? SessionRepository.CreateSession(emailAddress) : null;
         }
 
         public static User RetrieveUser(string email)
@@ -27,7 +27,7 @@ namespace GeoCar.Database
 
             var dataTable = DatabaseCommon.PerformAction("GetUserForEmail", parameters);
 
-            return dataTable != null && dataTable.Rows.Count > 0 ? PopulateUser(dataTable.Rows[0]) : null;
+            return DatabaseCommon.ConvertRow(dataTable, PopulateUser);
         }
 
         private static List<User> PopulateUser(DataTable userTable)

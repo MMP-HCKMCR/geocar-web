@@ -24,24 +24,34 @@ namespace GeoCar.WcfService
 
         public LoginResponse Login(LoginRequest request)
         {
-            var loginResult = UserRepository.LogInUser(request.EmailAddress, request.UserPassword);
+            var session = UserRepository.LogInUser(request.EmailAddress, request.UserPassword);
 
-            if (loginResult.ErrorNumber == 0)
+            if (session != null)
             {
                 return new LoginResponse
                 {
-                    ErrorId = 0,
-                    SessionId = loginResult.SessionId,
+                    SessionId = session.SessionId,
                     Success = true,
-                    UserId = loginResult.UserId
+                    UserId = session.UserId
                 };
             }
 
             return new LoginResponse
             {
-                ErrorId = loginResult.ErrorNumber,
                 SessionId = string.Empty,
-                Success = false
+                Success = false,
+                ErrorMessage = "LoginIncorrect"
+            };
+        }
+
+        public ApiResult Logout(LogoutRequest request)
+        {
+            var sessionWasValid = SessionRepository.InvalidateSession(request.SessionId);
+
+            return new ApiResult
+            {
+                Success = true,
+                ErrorMessage = (sessionWasValid ? string.Empty : "InvalidSessionId")
             };
         }
 
@@ -64,7 +74,7 @@ namespace GeoCar.WcfService
                 PossitionMove = false,
                 LockoutTime = 0,
                 Success = true,
-                ErrorId = 0
+                ErrorMessage = string.Empty
             };
         }
     }
