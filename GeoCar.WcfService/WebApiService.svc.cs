@@ -95,6 +95,7 @@ namespace GeoCar.WcfService
             user.Score = user.Score + pointsScored;
 
             user = UserRepository.UpdateUser(user);
+            var top10 = UserRepository.RetrieveTopLeaderboard(10, user.UserId);
 
             return new RegisterTagResponse
             {
@@ -102,7 +103,7 @@ namespace GeoCar.WcfService
                 NewPointsTotal = user.Score,
                 UsablePoints = 0,
                 Achievement = string.Empty,
-                Top10 = new Responses.LeaderboardResponseEntry[0],
+                Top10 = top10.Select(LeaderboardResponseEntry.FromModel).ToArray(),
                 Ranking = 0,
                 LockoutTime = tagType.LockoutTimePeriod,
                 Success = true,
