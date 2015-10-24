@@ -1,14 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-
-using GeoCar.WcfService;
+using System.Web.UI.WebControls;
 
 namespace GeoCar.WcfService.Responses
 {
-    public class RegisterTagResponse
+    public class RegisterTagResponse : ApiResult
     {
+        [DataMember]
+        public int PointsScored { get; set; }
+        [DataMember]
+        public int NewPointsTotal { get; set; }
+        [DataMember]
+        public int UsablePoints { get; set; }
+        [DataMember]
+        public string Achievement { get; set; }
+        [DataMember]
+        public List<ScoreBoardResponseObject> Top10 { get; set; }
     }
 }

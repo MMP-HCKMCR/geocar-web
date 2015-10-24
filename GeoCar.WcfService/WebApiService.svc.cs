@@ -44,5 +44,13 @@ namespace GeoCar.WcfService
                 Success = false
             };
         }
+
+        public RegisterTagResponse RegisterTag(RegisterTagRequest request)
+        {
+            return new RegisterTagResponse
+            {
+                
+            };
+        }
     }
 }
