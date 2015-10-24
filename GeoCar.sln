@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoCar.WcfService", "GeoCar.WcfService\GeoCar.WcfService.csproj", "{CB39A948-5258-423A-AAA0-84CAD9455E7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoCar.WcfService.Test", "GeoCar.WcfService.Test\GeoCar.WcfService.Test.csproj", "{C7E36B33-DCD4-4642-BD30-FEBB1DDE478A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoCar.Website", "GeoCar.Website\GeoCar.Website.csproj", "{96D215B5-D294-424A-8A89-7CBD09A4D623}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{CB39A948-5258-423A-AAA0-84CAD9455E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB39A948-5258-423A-AAA0-84CAD9455E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB39A948-5258-423A-AAA0-84CAD9455E7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C7E36B33-DCD4-4642-BD30-FEBB1DDE478A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7E36B33-DCD4-4642-BD30-FEBB1DDE478A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7E36B33-DCD4-4642-BD30-FEBB1DDE478A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7E36B33-DCD4-4642-BD30-FEBB1DDE478A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{96D215B5-D294-424A-8A89-7CBD09A4D623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{96D215B5-D294-424A-8A89-7CBD09A4D623}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96D215B5-D294-424A-8A89-7CBD09A4D623}.Release|Any CPU.ActiveCfg = Release|Any CPU
