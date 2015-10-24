@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using GeoCar.Model;
 
 namespace GeoCar.Database
@@ -57,6 +58,32 @@ namespace GeoCar.Database
             return dataTable != null && dataTable.Rows.Count > 0 ? PopulateTransaction(dataTable.Rows[0]) : null;
         }
 
+        public static List<Transaction> RetrieveXTransactionsForUser(int count, int userId)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter
+                {
+                    ParameterName = "count",
+                    Value = count
+                },
+                new SqlParameter
+                {
+                    ParameterName = "userId",
+                    Value = userId
+                }
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("GetXTransactionsForUser", parameters);
+
+            return dataTable != null && dataTable.Rows.Count > 0 ? PopulateTransactionList(dataTable) : new List<Transaction>();
+        }
+
+        private static List<Transaction> PopulateTransactionList(DataTable transactions)
+        {
+            return (from DataRow transaction in transactions.Rows select PopulateTransaction(transaction)).ToList();
+        }
+
         private static Transaction PopulateTransaction(DataRow transaction)
         {
             return new Transaction
@@ -67,6 +94,29 @@ namespace GeoCar.Database
                 TimeCaptured = transaction.Field<DateTime>("TimeCaptured"),
                 TransactionTypeId = transaction.Field<int>("TransactionTypeId")
             };
+        }
+
+        public static int GetUsersUsablePoints(int userId)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter
+                {
+                    ParameterName = "userId",
+                    Value = userId
+                }
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("GetUsersUsablePoints", parameters);
+
+            var usablePoints = 0;
+
+            if (dataTable != null && dataTable.Rows.Count > 0)
+            {
+                usablePoints = dataTable.Rows[0].Field<int>("Points");
+            }
+
+            return usablePoints;
         }
     }
 }
