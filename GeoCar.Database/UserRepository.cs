@@ -99,6 +99,31 @@ namespace GeoCar.Database
             return DatabaseCommon.ConvertTable(dataTable, LeaderboardEntry.FromDataRow);
         }
 
+        public static IList<LeaderboardEntry> RetrieveLocalLeaderboard(int userId, int locality = 2)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("userId", userId),
+                new SqlParameter("locality", locality)           
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("GetLocalLeaderboardInfo", parameters);
+
+            return DatabaseCommon.ConvertTable(dataTable, LeaderboardEntry.FromDataRow);
+        }
+
+        public static int RetrieveUserRanking(int userId)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("userId", userId)
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("GetUserRanking", parameters);
+
+            return DatabaseCommon.ConvertRow(dataTable, (row) => row.Field<int>("Ranking"));
+        }
+
         private static List<User> PopulateUser(DataTable userTable)
         {
             return (from DataRow dataRow in userTable.Rows select PopulateUser(dataRow)).ToList();
