@@ -63,6 +63,10 @@ namespace GeoCar.WcfService
 
             var tagType = TagTypeRepository.RetrieveTagType(tag.TagTypeId);
 
+            var user = UserRepository.RetrieveUser(request.SessionId);
+
+
+
             return new RegisterTagResponse
             {
                 PointsScored = 0,

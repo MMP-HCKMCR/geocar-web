@@ -61,7 +61,7 @@ namespace GeoCar.Database
         {
             return new Session
             {
-                SessionId = session.Field<string>("SessionId"),
+                SessionId = session.Field<Guid>("SessionId").ToString(),
                 UserId = session.Field<int>("UserId")
             };
         }

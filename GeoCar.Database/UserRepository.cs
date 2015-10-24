@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -26,6 +27,21 @@ namespace GeoCar.Database
             };
 
             var dataTable = DatabaseCommon.PerformAction("GetUserForEmail", parameters);
+
+            return DatabaseCommon.ConvertRow(dataTable, PopulateUser);
+        }
+
+        public static User RetrieveUser(Guid sessionId)
+        {
+            var parameters = new List<SqlParameter>
+            { new SqlParameter
+                {
+                    ParameterName = "SessionId",
+                    Value = sessionId
+                }
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("GetUserForSessionId", parameters);
 
             return DatabaseCommon.ConvertRow(dataTable, PopulateUser);
         }
