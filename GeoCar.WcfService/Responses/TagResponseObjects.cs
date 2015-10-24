@@ -15,7 +15,7 @@ namespace GeoCar.WcfService.Responses
         [DataMember]
         public string Achievement { get; set; }
         [DataMember]
-        public LeaderboardResponseObject[] Top10 { get; set; }
+        public LeaderboardResponseEntry[] Top10 { get; set; }
         [DataMember]
         public int Ranking { get; set; }
         [DataMember]

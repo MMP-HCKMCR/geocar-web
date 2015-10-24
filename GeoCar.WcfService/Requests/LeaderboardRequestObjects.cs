@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace GeoCar.WcfService.Requests
 {
-    public class LeaderboardRequestObject
+    public class LeaderboardRequest
     {
         [DataMember]
         public Guid SessionId { get; set; }
