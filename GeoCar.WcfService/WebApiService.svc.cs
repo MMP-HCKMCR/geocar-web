@@ -72,7 +72,7 @@ namespace GeoCar.WcfService
                 PossitionMove = false,
                 LockoutTime = 0,
                 Success = true,
-                ErrorId = 0
+                ErrorMessage = string.Empty
             };
         }
     }
