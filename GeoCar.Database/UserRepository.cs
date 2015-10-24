@@ -27,7 +27,7 @@ namespace GeoCar.Database
 
             var dataTable = DatabaseCommon.PerformAction("GetUserForEmail", parameters);
 
-            return dataTable != null && dataTable.Rows.Count > 0 ? PopulateUser(dataTable.Rows[0]) : null;
+            return DatabaseCommon.ConvertRow(dataTable, PopulateUser, () => default(User));
         }
 
         private static List<User> PopulateUser(DataTable userTable)

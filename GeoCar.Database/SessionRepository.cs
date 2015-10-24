@@ -34,7 +34,19 @@ namespace GeoCar.Database
 
             var dataTable = DatabaseCommon.PerformAction("AddSession", parameters);
 
-            return dataTable != null ? PopulateSession(dataTable.Rows[0]) : InvalidSession();
+            return DatabaseCommon.ConvertRow(dataTable, PopulateSession, InvalidSession);
+        }
+
+        public static Session RetrieveSession(Guid sessionId)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter ("sessionId", sessionId)
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("GetSessionForId", parameters);
+
+            return DatabaseCommon.ConvertRow(dataTable, PopulateSession, InvalidSession);
         }
 
         private static Session PopulateSession(DataRow session)
