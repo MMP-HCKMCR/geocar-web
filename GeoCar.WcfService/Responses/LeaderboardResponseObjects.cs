@@ -23,6 +23,9 @@ namespace GeoCar.WcfService.Responses
     public class LeaderboardResponseEntry
     {
         [DataMember]
+        public int Position { get; set; }
+
+        [DataMember]
         public string FirstName { get; set; }
 
         [DataMember]
@@ -34,14 +37,19 @@ namespace GeoCar.WcfService.Responses
         [DataMember]
         public int Score { get; set; }
 
+        [DataMember]
+        public bool IsCurrentUser { get; set; }
+
         public static LeaderboardResponseEntry FromModel(LeaderboardEntry entry)
         {
             return new LeaderboardResponseEntry
             {
+                Position = entry.Position,
                 FirstName = entry.FirstName,
                 Surname = entry.Surname,
                 Score = entry.Score,
-                LastScoreTime = entry.LastScoreTime
+                LastScoreTime = entry.LastScoreTime,
+                IsCurrentUser = entry.IsCurrentUser
             };
         }
     }

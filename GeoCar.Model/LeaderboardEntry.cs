@@ -25,7 +25,7 @@ namespace GeoCar.Model
                 Surname = dr.Field<string>("Surname"),
                 Score = dr.Field<int>("Score"),
                 LastScoreTime = dr.Field<DateTime>("LastScoreTime"),
-                IsCurrentUser = dr.Field<int>("IsCurrentUser") == 0
+                IsCurrentUser = dr.Field<int>("IsCurrentUser") != 0
             };
         }
     }
