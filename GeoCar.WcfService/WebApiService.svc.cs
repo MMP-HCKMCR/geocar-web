@@ -101,7 +101,7 @@ namespace GeoCar.WcfService
             {
                 PointsScored = pointsScored,
                 NewPointsTotal = user.Score,
-                UsablePoints = 0,
+                UsablePoints = TransactionRepository.GetUsersUsablePoints(user.UserId),
                 Achievement = string.Empty,
                 Top10 = top10.Select(LeaderboardResponseEntry.FromModel).ToArray(),
                 Ranking = 0,
@@ -111,7 +111,38 @@ namespace GeoCar.WcfService
             };
         }
 
-        private static RegisterTagResponse CreateFailedTagResponse(string errorMesssage)
+        public UserInfoResponse UserInfo(UserInfoRequest request)
+        {
+            var user = UserRepository.RetrieveUser(request.SessionId);
+
+            if (user == null)
+            {
+                return new UserInfoResponse
+                {
+                    FirstName = string.Empty,
+                    Surname = string.Empty,
+                    Email = string.Empty,
+                    TotalPoints = 0,
+                    UsablePoints = 0,
+                    Last5Transactions = new TransactionResponse[0],
+                    Success = false,
+                    ErrorMessage = "Invalid Session Details"
+                };
+            }
+
+            return new UserInfoResponse
+            {
+                FirstName = user.FirstName,
+                Surname = user.Surname,
+                Email = user.Email,
+                TotalPoints = user.UserId,
+                UsablePoints = TransactionRepository.GetUsersUsablePoints(user.UserId),
+                Last5Transactions = MapOutTransactions(TransactionRepository.RetrieveXTransactionsForUser(5, user.UserId))
+            };
+        }
+
+        #region Private Support Methods
+        private RegisterTagResponse CreateFailedTagResponse(string errorMesssage)
         {
             return new RegisterTagResponse
             {
@@ -126,6 +157,41 @@ namespace GeoCar.WcfService
                 ErrorMessage = errorMesssage
             };
         }
+
+        private TransactionResponse[] MapOutTransactions(List<Transaction> transactions)
+        {
+            return transactions.Select(transaction => new TransactionResponse
+            {
+                TransactionId = transaction.TransactionId,
+                UserId = transaction.UserId,
+                Points = transaction.Points,
+                TimeCaptured = transaction.TimeCaptured,
+                TransactionType = MapOutTransactionType(transaction.TransactionTypeId)
+            }).ToArray();
+        }
+
+        private string MapOutTransactionType(int transactionTypeId)
+        {
+            var result = string.Empty;
+
+            switch (transactionTypeId)
+            {
+                case 1:
+                    result = "Tag";
+                    break;
+                case 2:
+                    result = "Milage";
+                    break;
+                case 3:
+                    result = "Usage";
+                    break;
+            }
+
+            return result;
+        }
+
+
+        #endregion
 
         public LeaderboardResponse GetLeaderboard(LeaderboardRequest request)
         {
