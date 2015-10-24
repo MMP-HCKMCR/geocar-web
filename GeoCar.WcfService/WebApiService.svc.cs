@@ -54,5 +54,26 @@ namespace GeoCar.WcfService
                 ErrorMessage = (sessionWasValid ? string.Empty : "InvalidSessionId")
             };
         }
+
+        public RegisterTagResponse RegisterTag(RegisterTagRequest request)
+        {
+            var tag = TagRepository.RetrieveTag(request.BeaconId,
+                                                request.BeaconMajorVersion,
+                                                request.BeaconMinorVersion);
+
+            return new RegisterTagResponse
+            {
+                PointsScored = 0,
+                NewPointsTotal = 0,
+                UsablePoints = 0,
+                Achievement = String.Empty,
+                Top10 = new List<ScoreBoardResponseObject>(),
+                Ranking = 0,
+                PossitionMove = false,
+                LockoutTime = 0,
+                Success = true,
+                ErrorId = 0
+            };
+        }
     }
 }

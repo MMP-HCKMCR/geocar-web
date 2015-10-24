@@ -70,6 +70,7 @@
     <Compile Include="Responses\CommonResponseObjects.cs" />
     <Compile Include="Responses\SessionResponseObjects.cs" />
     <Compile Include="Responses\TagResponseObjects.cs" />
+    <Compile Include="Responses\ScoreBoardResponseObject.cs" />
     <Compile Include="WebApiService.svc.cs">
       <DependentUpon>WebApiService.svc</DependentUpon>
     </Compile>
