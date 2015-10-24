@@ -20,12 +20,12 @@ namespace GeoCar.Model
         {
             return new LeaderboardEntry
             {
-                Position = dr.Field<int>("Position"),
+                Position = (int)dr.Field<long>("Position"),
                 FirstName = dr.Field<string>("FirstName"),
                 Surname = dr.Field<string>("Surname"),
                 Score = dr.Field<int>("Score"),
                 LastScoreTime = dr.Field<DateTime>("LastScoreTime"),
-                IsCurrentUser = dr.Field<bool>("IsCurrentUser")
+                IsCurrentUser = dr.Field<int>("IsCurrentUser") == 0
             };
         }
     }

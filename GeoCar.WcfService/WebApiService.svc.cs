@@ -101,8 +101,8 @@ namespace GeoCar.WcfService
                 PointsScored = pointsScored,
                 NewPointsTotal = user.Score,
                 UsablePoints = 0,
-                Achievement = String.Empty,
-                Top10 = new LeaderboardResponseObject[0],
+                Achievement = string.Empty,
+                Top10 = new Responses.LeaderboardResponseEntry[0],
                 Ranking = 0,
                 LockoutTime = tagType.LockoutTimePeriod,
                 Success = true,
@@ -117,8 +117,8 @@ namespace GeoCar.WcfService
                 PointsScored = 0,
                 NewPointsTotal = 0,
                 UsablePoints = 0,
-                Achievement = String.Empty,
-                Top10 = new LeaderboardResponseObject[0],
+                Achievement = string.Empty,
+                Top10 = new Responses.LeaderboardResponseEntry[0],
                 Ranking = 0,
                 LockoutTime = 0,
                 Success = false,
@@ -126,17 +126,28 @@ namespace GeoCar.WcfService
             };
         }
 
-        //public LeaderboardResponseObject GetLeaderboard(LeaderboardRequestObject request)
-        //{
-        //    var session = SessionRepository.RetrieveSession(request.SessionId);
-        //    if (session == null)
-        //    {
-        //        return new LeaderboardResponseObject
-        //        {
-        //            Success = false,
-        //            ErrorMessage = "InvalidSessionId",
-        //        };
-        //    }
-        //}
+        public LeaderboardResponse GetLeaderboard(LeaderboardRequest request)
+        {
+            var session = SessionRepository.RetrieveSession(request.SessionId);
+            if (session == null)
+            {
+                return new LeaderboardResponse
+                {
+                    Success = false,
+                    ErrorMessage = "InvalidSessionId",
+                };
+            }
+
+            var result = new LeaderboardResponse();
+
+            var top = UserRepository.RetrieveTopLeaderboard(10, session.UserId);
+            result.Top10 = top.Select(LeaderboardResponseEntry.FromModel).ToArray();
+
+            var contenders = UserRepository.RetrieveLocalLeaderboard(session.UserId, 2);
+            result.Contenders = contenders.Select(LeaderboardResponseEntry.FromModel).ToArray();
+            result.Ranking = contenders.Where(c => c.IsCurrentUser).Select(c => c.Position).First();
+
+            return result;
+        }
     }
 }
