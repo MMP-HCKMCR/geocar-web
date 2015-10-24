@@ -17,10 +17,7 @@ namespace GeoCar.Database
 
             if (user == null)
             {
-                return new Session
-                {
-                    ErrorNumber = 1001
-                };
+                return null;
             }
 
             var parameters = new List<SqlParameter>
@@ -34,7 +31,7 @@ namespace GeoCar.Database
 
             var dataTable = DatabaseCommon.PerformAction("AddSession", parameters);
 
-            return DatabaseCommon.ConvertRow(dataTable, PopulateSession, InvalidSession);
+            return DatabaseCommon.ConvertRow(dataTable, PopulateSession);
         }
 
         public static Session RetrieveSession(Guid sessionId)
@@ -46,7 +43,18 @@ namespace GeoCar.Database
 
             var dataTable = DatabaseCommon.PerformAction("GetSessionForId", parameters);
 
-            return DatabaseCommon.ConvertRow(dataTable, PopulateSession, InvalidSession);
+            return DatabaseCommon.ConvertRow(dataTable, PopulateSession);
+        }
+
+        public static bool InvalidateSession(Guid sessionId)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter ("sessionId", sessionId)
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("InvalidateSessionForId", parameters);
+            return dataTable.Rows[0].Field<int>("SessionWasValid") == 1;
         }
 
         private static Session PopulateSession(DataRow session)
@@ -55,14 +63,6 @@ namespace GeoCar.Database
             {
                 SessionId = session.Field<string>("SessionId"),
                 UserId = session.Field<int>("UserId")
-            };
-        }
-
-        public static Session InvalidSession()
-        {
-            return new Session
-            {
-                ErrorNumber = 1001
             };
         }
     }

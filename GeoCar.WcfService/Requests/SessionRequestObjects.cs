@@ -14,4 +14,10 @@ namespace GeoCar.WcfService.Requests
         [DataMember]
         public string UserPassword { get; set; }
     }
+
+    public class LogoutRequest
+    {
+        [DataMember]
+        public Guid SessionId { get; set; }
+    }
 }

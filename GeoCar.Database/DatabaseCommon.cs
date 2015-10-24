@@ -39,9 +39,9 @@ namespace GeoCar.Database
             }
         }
 
-        internal static T ConvertRow<T>(DataTable dataTable, Func<DataRow, T> ifRowExists, Func<T> ifNoRows)
+        internal static T ConvertRow<T>(DataTable dataTable, Func<DataRow, T> ifRowExists)
         {
-            return (dataTable.Rows.Count > 0) ? ifRowExists(dataTable.Rows[0]) : ifNoRows();
+            return (dataTable.Rows.Count > 0) ? ifRowExists(dataTable.Rows[0]) : default(T);
         }
     }
 }
