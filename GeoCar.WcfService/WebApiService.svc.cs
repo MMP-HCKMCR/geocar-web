@@ -61,7 +61,7 @@ namespace GeoCar.WcfService
                                                 request.BeaconMajorVersion,
                                                 request.BeaconMinorVersion);
 
-            if (!tag.Active)
+            if (tag == null || !tag.Active)
             {
                 return new RegisterTagResponse
                 {

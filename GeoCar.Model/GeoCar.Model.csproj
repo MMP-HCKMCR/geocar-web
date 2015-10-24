@@ -45,6 +45,7 @@
     <Compile Include="Tag.cs" />
     <Compile Include="TagType.cs" />
     <Compile Include="Transaction.cs" />
+    <Compile Include="TransactionType.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

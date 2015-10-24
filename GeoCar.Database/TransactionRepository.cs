@@ -11,7 +11,7 @@ namespace GeoCar.Database
 {
     public class TransactionRepository
     {
-        public static Transaction CreateTransaction(int userId, int points, int transactionTypeId)
+        public static Transaction CreateTransaction(int userId, int points, TransactionType transactionTypeId)
         {
             var parameters = new List<SqlParameter>
             {
