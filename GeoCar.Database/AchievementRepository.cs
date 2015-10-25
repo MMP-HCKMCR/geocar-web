@@ -3,14 +3,44 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GeoCar.Model;
 
 namespace GeoCar.Database
 {
     public class AchievementRepository
     {
+        public static List<Achievement> RetrieveUserAchievements(int userId)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter
+                {
+                    ParameterName = "userId",
+                    Value = userId
+                }
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("GetAchievementsForUserId", parameters);
+
+            return dataTable != null && dataTable.Rows.Count > 0 ? PopulateAchievements(dataTable) : null;
+        }
+
+        public static List<Achievement> RetrieveOutstandingUserAchievements(int userId)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter
+                {
+                    ParameterName = "userId",
+                    Value = userId
+                }
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("GetOutstandingAchievementsForUserId", parameters);
+
+            return dataTable != null && dataTable.Rows.Count > 0 ? PopulateAchievements(dataTable) : null;
+        }
+
         public static List<Achievement> RetrieveAvailableAchievements(int userId, int tagId)
         {
             var parameters = new List<SqlParameter>

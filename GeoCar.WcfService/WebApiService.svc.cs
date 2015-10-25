@@ -154,6 +154,20 @@ namespace GeoCar.WcfService
             };
         }
 
+        public GetAchievementResponse GetAchievements(GetAchievementRequest request)
+        {
+            var user = UserRepository.RetrieveUser(request.SessionId);
+
+            var currentAchievements = AchievementRepository.RetrieveUserAchievements(user.UserId);
+            var outstandingAchievements = AchievementRepository.RetrieveOutstandingUserAchievements(user.UserId);
+
+            return new GetAchievementResponse
+            {
+                UsersAchievements = MapOutAchievements(currentAchievements),
+                RemainingAchievements = MapOutAchievements(outstandingAchievements)
+            };
+        }
+
         #region Private Support Methods
         private RegisterTagResponse CreateFailedTagResponse(string errorMesssage)
         {
@@ -203,6 +217,20 @@ namespace GeoCar.WcfService
             return result;
         }
 
+        private AchievementResponse[] MapOutAchievements(List<Achievement> achievements)
+        {
+            return achievements.Select(achievement => MapOutAchievement(achievement)).ToArray();
+        }
+
+        private AchievementResponse MapOutAchievement(Achievement achievement)
+        {
+            return new AchievementResponse
+            {
+                AchievementName = achievement.AchievementName,
+                AchievementDescription = achievement.AchievementDescription
+            };
+
+        }
 
         #endregion
 
