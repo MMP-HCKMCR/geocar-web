@@ -1,2 +1,61 @@
-﻿<h1>All hires</h1>
+﻿@using System
+@using GeoCar.Model
+@using GeoCar.Database
+<h1>All hires</h1>
 
+<table id="allHires">
+    <thead>
+        <tr>
+            <td>Booking reference</td>
+            <td>Customer name</td>
+            <td>Customer email</td>
+            <td>Hire period</td>
+            <td>Actions</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{  var allHires = HireRepository.RetrieveAllHires(); }
+        @foreach (var hire in allHires)
+        {
+            var user = UserRepository.RetrieveUser(hire.UserId);
+            <tr>
+                <td>@hire.BookingReference</td>
+                <td>@($"{user.FirstName} {user.Surname}")</td>
+                <td>@user.Email</td>
+                <td>@hire.HireStartDate to @hire.HireEndDate</td>
+                <td><input type="button" value="End Game" disabled /></td>
+            </tr>
+        }
+        @if (allHires == null || allHires.Count == 0)
+        {
+            <tr>
+                <td colspan="4"><strong>No hires</strong></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<form name="newHire" method="post" action="/manage/Hire/NewHireAction">
+    <h2>New hire</h2>
+    <fieldset>
+        <input type="hidden" name="action" value="NewHire" />
+        <div>
+            <label for="bookingReference">Booking reference:</label>
+            <input type="text" name="bookingReference" />
+        </div>
+        <div>
+            <label for="customerEmailAddress">Customer email address:</label>
+            <input type="text" name="customerEmailAddress" />
+        </div>
+        <div>
+            <label for="startMileage">Current car mileage:</label>
+            <input type="text" name="startMileage" />
+        </div>
+
+        <p>If the customer has played GeoCar before, they will be able to log in with this email address and their existing password.
+        If not, they will be asked to create an account.</p>
+
+        <input type="submit" value="Register" />
+    </fieldset>
+</form>

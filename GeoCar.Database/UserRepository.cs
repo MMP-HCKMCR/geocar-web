@@ -16,6 +16,17 @@ namespace GeoCar.Database
             return user != null && user.Password == userPassword ? SessionRepository.CreateSession(emailAddress) : null;
         }
 
+        public static User CreateUser(string emailAddress)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("emailAddress", emailAddress)
+            };
+
+            var dt = DatabaseCommon.PerformAction("CreateNewUser", parameters);
+            return DatabaseCommon.ConvertRow(dt, PopulateUser);
+        }
+
         public static User RetrieveUser(int userId)
         {
             var parameters = new List<SqlParameter>
@@ -149,7 +160,8 @@ namespace GeoCar.Database
                 Password = user.Field<string>("Password"),
                 FirstName = user.Field<string>("FirstName"),
                 Surname = user.Field<string>("Surname"),
-                Score = user.Field<int>("Score")
+                Score = user.Field<int>("Score"),
+                LastScoreTime = user.Field<DateTime>("LastScoreTime")
             };
         }
     }

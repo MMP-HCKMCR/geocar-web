@@ -27,5 +27,19 @@ namespace GeoCar.Database
             var dataTable = DatabaseCommon.PerformAction("GetSingleHireForBookingReference", parameters);
             return DatabaseCommon.ConvertRow(dataTable, Hire.FromDataRow);
         }
+
+        public static Hire CreateHire(int userId, string bookingReference, DateTime hireEndDate, int startMileage)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("userId", userId),
+                new SqlParameter("bookingReference", bookingReference),
+                new SqlParameter("hireEndDate", hireEndDate == DateTime.MinValue ? DBNull.Value : (object)hireEndDate),
+                new SqlParameter("startMileage", startMileage)
+            };
+
+            var dt = DatabaseCommon.PerformAction("CreateNewHire", parameters);
+            return DatabaseCommon.ConvertRow(dt, Hire.FromDataRow);
+        }
     }
 }
