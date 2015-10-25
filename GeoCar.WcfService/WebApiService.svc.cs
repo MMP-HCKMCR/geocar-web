@@ -158,11 +158,21 @@ namespace GeoCar.WcfService
         {
             var user = UserRepository.RetrieveUser(request.SessionId);
 
+            if (user == null)
+            {
+                return new GetAchievementResponse
+                {
+                    Success = false,
+                    ErrorMessage = "User not Found"
+                };
+            }
+
             var currentAchievements = AchievementRepository.RetrieveUserAchievements(user.UserId);
             var outstandingAchievements = AchievementRepository.RetrieveOutstandingUserAchievements(user.UserId);
 
             return new GetAchievementResponse
             {
+                Success = true,
                 UsersAchievements = MapOutAchievements(currentAchievements),
                 RemainingAchievements = MapOutAchievements(outstandingAchievements)
             };
@@ -172,8 +182,18 @@ namespace GeoCar.WcfService
         {
             var user = UserRepository.RetrieveUser(request.SessionId);
 
+            if (user == null)
+            {
+                return new GetUserTransactionsResponse
+                {
+                    Success = false,
+                    ErrorMessage = "User not Found"
+                };
+            }
+
             return new GetUserTransactionsResponse
             {
+                Success = true,
                 TransactionDetails = MapOutTransactions(TransactionRepository.RetrieveXTransactionsForUser(20, user.UserId)),
             };
         }
