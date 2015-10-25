@@ -16,11 +16,13 @@ namespace GeoCar.Database
             return user != null && user.Password == userPassword ? SessionRepository.CreateSession(emailAddress) : null;
         }
 
-        public static User CreateUser(string emailAddress)
+        public static User CreateUser(string emailAddress, string firstName, string surname)
         {
             var parameters = new List<SqlParameter>
             {
-                new SqlParameter("emailAddress", emailAddress)
+                new SqlParameter("emailAddress", emailAddress),
+                new SqlParameter("firstName", firstName),
+                new SqlParameter("surname", surname)
             };
 
             var dt = DatabaseCommon.PerformAction("CreateNewUser", parameters);
@@ -111,6 +113,18 @@ namespace GeoCar.Database
             var dataTable = DatabaseCommon.PerformAction("UpdateUser", parameters);
 
             return DatabaseCommon.ConvertRow(dataTable, PopulateUser);
+        }
+
+        public static User UpdatePassword(int userId, string userPassword)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("userId", userId),
+                new SqlParameter("password", userPassword)
+            };
+
+            var dt = DatabaseCommon.PerformAction("UpdateUserPassword", parameters);
+            return DatabaseCommon.ConvertRow(dt, PopulateUser);
         }
 
         public static User RetrieveUser(Guid sessionId)

@@ -17,6 +17,8 @@ namespace GeoCar.Model
         public int StartMileage { get; set; }
         public int EndMileage { get; set; }
 
+        public User HireUser { get; set; }
+
         public static Hire FromDataRow(DataRow dr)
         {
             return new Hire

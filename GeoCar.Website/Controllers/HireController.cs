@@ -16,12 +16,20 @@ namespace GeoCar.Website.Controllers
             return View();
         }
 
-        public ActionResult NewHireAction(string bookingReference, string customerEmailAddress, int startMileage)
+        public ActionResult Edit(string id)
+        {
+            var hire = HireRepository.RetrieveSingleHire(id);
+            hire.HireUser = UserRepository.RetrieveUser(hire.UserId);
+
+            return View("SingleHire", hire);
+        }
+
+        public ActionResult NewHireAction(string bookingReference, string customerEmailAddress, string firstName, string surname, int startMileage)
         {
             var user = UserRepository.RetrieveUser(customerEmailAddress);
             if (user == null)
             {
-                user = UserRepository.CreateUser(customerEmailAddress);
+                user = UserRepository.CreateUser(customerEmailAddress, firstName, surname);
             }
 
             var hire = HireRepository.RetrieveSingleHire(bookingReference);
@@ -32,7 +40,7 @@ namespace GeoCar.Website.Controllers
             else
             {
                 hire = HireRepository.CreateHire(user.UserId, bookingReference, DateTime.MinValue, startMileage);
-                return Redirect($"/manage/Hire/{hire.HireUserId}");
+                return Redirect($"/manage/Hire/Edit/{hire.BookingReference}");
             }
         }
     }

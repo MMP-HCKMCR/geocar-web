@@ -1,0 +1,24 @@
+﻿@model GeoCar.Website.Controllers.NewUserRegisterController.Model
+<h1>Register for GeoCar</h1>
+
+<form name="form1" method="post" action="/manage/NewUserRegister/Action">
+    @if (Model.NoBookingFound)
+    {
+        <p>Couldn't find a booking with this reference and email address. Please check these details and try again.</p>
+    }
+    <fieldset>
+        <div>
+            <label for="bookingReference">Booking reference:</label>
+            <input type="text" name="bookingReference" />
+        </div>
+        <div>
+            <label for="emailAddress">Email address:</label>
+            <input type="text" name="emailAddress" />
+        </div>
+        <div>
+            <label for="userPassword">Create a password:</label>
+            <input type="password" name="userPassword" />
+        </div>
+        <input type="submit" value="Start playing GeoCar" />
+    </fieldset>
+</form>

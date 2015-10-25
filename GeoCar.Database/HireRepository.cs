@@ -28,6 +28,19 @@ namespace GeoCar.Database
             return DatabaseCommon.ConvertRow(dataTable, Hire.FromDataRow);
         }
 
+        public static Hire RetrieveSingleHire(string bookingReference, string emailAddress)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("bookingReference", bookingReference),
+                new SqlParameter("emailAddress", emailAddress)
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("GetHireForBookingReferenceAndEmailAddress", parameters);
+            return DatabaseCommon.ConvertRow(dataTable, Hire.FromDataRow);
+        }
+
+
         public static Hire CreateHire(int userId, string bookingReference, DateTime hireEndDate, int startMileage)
         {
             var parameters = new List<SqlParameter>
