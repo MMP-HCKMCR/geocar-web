@@ -55,7 +55,7 @@ namespace GeoCar.Database
 
             var dataTable = DatabaseCommon.PerformAction("AddTransaction", parameters);
 
-            return dataTable != null && dataTable.Rows.Count > 0 ? PopulateTransaction(dataTable.Rows[0]) : null;
+            return DatabaseCommon.ConvertRow(dataTable, PopulateTransaction);
         }
 
         public static List<Transaction> RetrieveXTransactionsForUser(int count, int userId)

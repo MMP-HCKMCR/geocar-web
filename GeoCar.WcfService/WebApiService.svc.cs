@@ -158,11 +158,21 @@ namespace GeoCar.WcfService
         {
             var user = UserRepository.RetrieveUser(request.SessionId);
 
+            if (user == null)
+            {
+                return new GetAchievementResponse
+                {
+                    Success = false,
+                    ErrorMessage = "User not Found"
+                };
+            }
+
             var currentAchievements = AchievementRepository.RetrieveUserAchievements(user.UserId);
             var outstandingAchievements = AchievementRepository.RetrieveOutstandingUserAchievements(user.UserId);
 
             return new GetAchievementResponse
             {
+                Success = true,
                 UsersAchievements = MapOutAchievements(currentAchievements),
                 RemainingAchievements = MapOutAchievements(outstandingAchievements)
             };
@@ -172,9 +182,54 @@ namespace GeoCar.WcfService
         {
             var user = UserRepository.RetrieveUser(request.SessionId);
 
+            if (user == null)
+            {
+                return new GetUserTransactionsResponse
+                {
+                    Success = false,
+                    ErrorMessage = "User not Found"
+                };
+            }
+
             return new GetUserTransactionsResponse
             {
+                Success = true,
                 TransactionDetails = MapOutTransactions(TransactionRepository.RetrieveXTransactionsForUser(20, user.UserId)),
+            };
+        }
+
+        public RegisterUserResponse RegisterUser(RegisterUserRequest request)
+        {
+            var user = UserRepository.RetrieveUser(request.EmailAddress, request.BookingReference);
+
+            if (user == null)
+            {
+                return new RegisterUserResponse
+                {
+                    Success = false,
+                    ErrorMessage = "User not Found"
+                };
+            }
+
+            user.Password = request.Password;
+
+            user = UserRepository.UpdateUser(user);
+
+            var session = SessionRepository.CreateSession(user.UserId);
+
+            if (session == null)
+            {
+                return new RegisterUserResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Session could not be Created"
+                };
+            }
+
+            return new RegisterUserResponse
+            {
+                Success = true,
+                SessionId = session.SessionId
             };
         }
 

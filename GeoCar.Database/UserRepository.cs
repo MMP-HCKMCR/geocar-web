@@ -55,6 +55,26 @@ namespace GeoCar.Database
             return DatabaseCommon.ConvertRow(dataTable, PopulateUser);
         }
 
+        public static User RetrieveUser(string email, string bookingReference)
+        {
+            var parameters = new List<SqlParameter>
+            { new SqlParameter
+                {
+                    ParameterName = "email",
+                    Value = email
+                },
+                new SqlParameter
+                {
+                    ParameterName = "bookingReference",
+                    Value = bookingReference
+                }
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("GetUserForEmailAndBookingReference", parameters);
+
+            return DatabaseCommon.ConvertRow(dataTable, PopulateUser);
+        }
+
         public static User UpdateUser(User user)
         {
             var parameters = new List<SqlParameter>
