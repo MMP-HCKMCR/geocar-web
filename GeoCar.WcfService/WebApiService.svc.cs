@@ -168,6 +168,16 @@ namespace GeoCar.WcfService
             };
         }
 
+        public GetUserTransactionsResponse GetUserTransactions(GetUserTransactionsRequest request)
+        {
+            var user = UserRepository.RetrieveUser(request.SessionId);
+
+            return new GetUserTransactionsResponse
+            {
+                TransactionDetails = MapOutTransactions(TransactionRepository.RetrieveXTransactionsForUser(20, user.UserId)),
+            };
+        }
+
         #region Private Support Methods
         private RegisterTagResponse CreateFailedTagResponse(string errorMesssage)
         {

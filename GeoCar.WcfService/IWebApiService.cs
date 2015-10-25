@@ -46,6 +46,10 @@ namespace GeoCar.WcfService
 
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        GetUserTransactionsResponse GetUserTransactions(GetUserTransactionsRequest request);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         LeaderboardResponse GetLeaderboard(LeaderboardRequest request);
 
         #endregion
