@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Achievement.cs" />
+    <Compile Include="Hire.cs" />
     <Compile Include="LeaderboardEntry.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="Session.cs" />

@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AchievementRepository.cs" />
     <Compile Include="DatabaseCommon.cs" />
+    <Compile Include="HireRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionRepository.cs" />
     <Compile Include="TagRepository.cs" />
