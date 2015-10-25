@@ -9,7 +9,7 @@ namespace GeoCar.Database
 {
     internal static class DatabaseCommon
     {
-        internal static DataTable PerformAction(string spName, List<SqlParameter> parameters)
+        internal static DataTable PerformAction(string spName, List<SqlParameter> parameters, SqlTransaction tx = null)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
@@ -24,6 +24,11 @@ namespace GeoCar.Database
                     CommandType = CommandType.StoredProcedure,
                     CommandTimeout = 30
                 };
+
+                if (tx != null)
+                {
+                    command.Transaction = tx;
+                }
 
                 if (parameters != null)
                 {

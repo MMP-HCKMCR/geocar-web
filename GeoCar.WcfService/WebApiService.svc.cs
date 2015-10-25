@@ -97,13 +97,14 @@ namespace GeoCar.WcfService
                 foreach (var achievement in achievements)
                 {
                     achievementNames.Add(achievement.AchievementName);
-                    pointsScored = pointsScored + achievement.RewardPoints;
+                    if (achievement.RewardPoints > 0)
+                    {
+                        TransactionRepository.CreateTransaction(user.UserId, achievement.RewardPoints, TransactionType.AchievementBonus);
+                    }
                 }
             }
 
             TransactionRepository.CreateTransactionForUserAndTag(user.UserId, pointsScored, tag.TagId, TransactionType.Tag);
-
-            user.Score = user.Score + pointsScored;
 
             user = UserRepository.UpdateUser(user);
 
@@ -112,7 +113,7 @@ namespace GeoCar.WcfService
             return new RegisterTagResponse
             {
                 PointsScored = pointsScored,
-                NewPointsTotal = user.Score,
+                NewPointsTotal = TransactionRepository.GetUsersPoints(user.UserId),
                 UsablePoints = TransactionRepository.GetUsersUsablePoints(user.UserId),
                 Achievements = achievementNames.ToArray(),
                 Top10 = top.Select(LeaderboardResponseEntry.FromModel).ToArray(),
@@ -147,7 +148,7 @@ namespace GeoCar.WcfService
                 FirstName = user.FirstName,
                 Surname = user.Surname,
                 Email = user.Email,
-                TotalPoints = user.Score,
+                TotalPoints = TransactionRepository.GetUsersPoints(user.UserId),
                 UsablePoints = TransactionRepository.GetUsersUsablePoints(user.UserId),
                 Last5Transactions = MapOutTransactions(TransactionRepository.RetrieveXTransactionsForUser(5, user.UserId)),
                 Success = true
@@ -277,6 +278,9 @@ namespace GeoCar.WcfService
                 case 3:
                     result = "Usage";
                     break;
+                case 4:
+                    result = "Achievement Reward";
+                    break;
             }
 
             return result;
@@ -284,6 +288,11 @@ namespace GeoCar.WcfService
 
         private AchievementResponse[] MapOutAchievements(List<Achievement> achievements)
         {
+            if (achievements == null)
+            {
+                return new AchievementResponse[0];
+            }
+
             return achievements.Select(achievement => MapOutAchievement(achievement)).ToArray();
         }
 

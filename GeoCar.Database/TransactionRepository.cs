@@ -118,5 +118,28 @@ namespace GeoCar.Database
 
             return usablePoints;
         }
+
+        public static int GetUsersPoints(int userId)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter
+                {
+                    ParameterName = "userId",
+                    Value = userId
+                }
+            };
+
+            var dataTable = DatabaseCommon.PerformAction("GetUsersPoints", parameters);
+
+            var usablePoints = 0;
+
+            if (dataTable != null && dataTable.Rows.Count > 0)
+            {
+                usablePoints = dataTable.Rows[0].Field<int>("Points");
+            }
+
+            return usablePoints;
+        }
     }
 }
