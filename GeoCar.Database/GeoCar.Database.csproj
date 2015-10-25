@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AchievementRepository.cs" />
     <Compile Include="DatabaseCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionRepository.cs" />

@@ -88,9 +88,20 @@ namespace GeoCar.WcfService
 
             var pointsScored = tagType.Points + tag.AdditionalPoints;
 
-            //TODO: Achievements
+            var achievements = AchievementRepository.RetrieveAvailableAchievements(user.UserId, tag.TagId);
 
-            var transaction = TransactionRepository.CreateTransactionForUserAndTag(user.UserId, pointsScored, tag.TagId, TransactionType.Tag);
+            var achievementNames = new List<string>();
+
+            if (achievements != null)
+            {
+                foreach (var achievement in achievements)
+                {
+                    achievementNames.Add(achievement.AchievementName);
+                    pointsScored = pointsScored + achievement.RewardPoints;
+                }
+            }
+
+            TransactionRepository.CreateTransactionForUserAndTag(user.UserId, pointsScored, tag.TagId, TransactionType.Tag);
 
             user.Score = user.Score + pointsScored;
 
@@ -103,7 +114,7 @@ namespace GeoCar.WcfService
                 PointsScored = pointsScored,
                 NewPointsTotal = user.Score,
                 UsablePoints = TransactionRepository.GetUsersUsablePoints(user.UserId),
-                Achievement = string.Empty,
+                Achievements = achievementNames.ToArray(),
                 Top10 = top.Select(LeaderboardResponseEntry.FromModel).ToArray(),
                 Ranking = 0,
                 LockoutTime = tagType.LockoutTimePeriod,
@@ -136,9 +147,10 @@ namespace GeoCar.WcfService
                 FirstName = user.FirstName,
                 Surname = user.Surname,
                 Email = user.Email,
-                TotalPoints = user.UserId,
+                TotalPoints = user.Score,
                 UsablePoints = TransactionRepository.GetUsersUsablePoints(user.UserId),
-                Last5Transactions = MapOutTransactions(TransactionRepository.RetrieveXTransactionsForUser(5, user.UserId))
+                Last5Transactions = MapOutTransactions(TransactionRepository.RetrieveXTransactionsForUser(5, user.UserId)),
+                Success = true
             };
         }
 
@@ -150,7 +162,7 @@ namespace GeoCar.WcfService
                 PointsScored = 0,
                 NewPointsTotal = 0,
                 UsablePoints = 0,
-                Achievement = string.Empty,
+                Achievements = new string[0],
                 Top10 = new Responses.LeaderboardResponseEntry[0],
                 Ranking = 0,
                 LockoutTime = 0,
