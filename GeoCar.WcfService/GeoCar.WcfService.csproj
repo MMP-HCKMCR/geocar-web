@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -82,6 +83,7 @@
     <Compile Include="Responses\LeaderboardResponseObjects.cs" />
     <Compile Include="Responses\TransactionResponse.cs" />
     <Compile Include="Responses\UserInfoResponse.cs" />
+    <Compile Include="WcfErrorHandler.cs" />
     <Compile Include="WebApiService.svc.cs">
       <DependentUpon>WebApiService.svc</DependentUpon>
     </Compile>

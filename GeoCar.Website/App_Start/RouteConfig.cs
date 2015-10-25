@@ -9,7 +9,7 @@ namespace GeoCar.Website
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            var factory = new WebServiceHostFactory();
+            var factory = new GeoCarServiceFactory();
 
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
