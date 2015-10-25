@@ -95,6 +95,18 @@ namespace GeoCar.Database
             return DatabaseCommon.ConvertRow(dataTable, PopulateUser);
         }
 
+        public static User UpdatePassword(int userId, string userPassword)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("userId", userId),
+                new SqlParameter("password", userPassword)
+            };
+
+            var dt = DatabaseCommon.PerformAction("UpdateUserPassword", parameters);
+            return DatabaseCommon.ConvertRow(dt, PopulateUser);
+        }
+
         public static User RetrieveUser(Guid sessionId)
         {
             var parameters = new List<SqlParameter>

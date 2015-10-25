@@ -136,6 +136,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HireController.cs" />
+    <Compile Include="Controllers\NewUserRegisterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -169,6 +170,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Hire\Index.cshtml" />
     <Content Include="Views\Hire\SingleHire.cshtml" />
+    <Content Include="Views\NewUserRegister\Index.cshtml" />
+    <Content Include="Views\NewUserRegister\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
