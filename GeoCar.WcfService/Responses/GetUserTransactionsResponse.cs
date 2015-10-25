@@ -2,7 +2,7 @@
 
 namespace GeoCar.WcfService.Responses
 {
-    public class GetUserTransactionsResponse
+    public class GetUserTransactionsResponse : ApiResult
     {
         [DataMember]
         public TransactionResponse[] TransactionDetails { set; get; }
