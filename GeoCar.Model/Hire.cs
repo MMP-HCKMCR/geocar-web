@@ -12,8 +12,8 @@ namespace GeoCar.Model
         public int HireUserId { get; set; }
         public int UserId { get; set; }
         public string BookingReference { get; set; }
-        DateTime HireStartDate { get; set; }
-        DateTime HireEndDate { get; set; }
+        public DateTime HireStartDate { get; set; }
+        public DateTime HireEndDate { get; set; }
         public int StartMileage { get; set; }
         public int EndMileage { get; set; }
 

@@ -16,6 +16,17 @@ namespace GeoCar.Database
             return user != null && user.Password == userPassword ? SessionRepository.CreateSession(emailAddress) : null;
         }
 
+        public static User RetrieveUser(int userId)
+        {
+            var parameters = new List<SqlParameter>
+            {
+                new SqlParameter("userId", userId)
+            };
+
+            var dt = DatabaseCommon.PerformAction("GetUserForUserId", parameters);
+            return DatabaseCommon.ConvertRow(dt, PopulateUser);
+        }
+
         public static User RetrieveUser(string email)
         {
             var parameters = new List<SqlParameter>
