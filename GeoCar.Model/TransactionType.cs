@@ -4,6 +4,7 @@
     {
         Tag = 1,
         Mileage = 2,
-        Usage = 3
+        Usage = 3,
+        AchievementBonus = 4
     }
 }

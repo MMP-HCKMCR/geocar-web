@@ -102,11 +102,6 @@ namespace GeoCar.Database
                 {
                     ParameterName = "Surname",
                     Value = user.Surname
-                },
-                new SqlParameter
-                {
-                    ParameterName = "Score",
-                    Value = user.Score
                 }
             };
 
@@ -194,7 +189,6 @@ namespace GeoCar.Database
                 Password = user.Field<string>("Password"),
                 FirstName = user.Field<string>("FirstName"),
                 Surname = user.Field<string>("Surname"),
-                Score = user.Field<int>("Score"),
                 LastScoreTime = user.Field<DateTime>("LastScoreTime")
             };
         }
