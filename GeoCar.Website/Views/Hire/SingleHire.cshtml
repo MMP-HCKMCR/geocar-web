@@ -1,0 +1,15 @@
+﻿@model GeoCar.Model.Hire
+<h1>Booking for @Model.BookingReference</h1>
+
+@{ var user = Model.HireUser; }
+
+<p>Booked by <strong>@user.FirstName @user.Surname</strong> (@user.Email)</p>
+
+@if (user.Password != null)
+{
+    <p>User has played GeoCar before, and is able to log in with their email address and password.</p>
+}
+else 
+{
+    <p>User has never played GeoCar before; they will need to finish registering at <a href="/manage/NewUser/Register">this address</a>.</p>
+}

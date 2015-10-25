@@ -16,11 +16,13 @@ namespace GeoCar.Database
             return user != null && user.Password == userPassword ? SessionRepository.CreateSession(emailAddress) : null;
         }
 
-        public static User CreateUser(string emailAddress)
+        public static User CreateUser(string emailAddress, string firstName, string surname)
         {
             var parameters = new List<SqlParameter>
             {
-                new SqlParameter("emailAddress", emailAddress)
+                new SqlParameter("emailAddress", emailAddress),
+                new SqlParameter("firstName", firstName),
+                new SqlParameter("surname", surname)
             };
 
             var dt = DatabaseCommon.PerformAction("CreateNewUser", parameters);
