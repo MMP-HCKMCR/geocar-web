@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Achievement.cs" />
     <Compile Include="Hire.cs" />
     <Compile Include="LeaderboardEntry.cs" />
     <Compile Include="ModelBase.cs" />
