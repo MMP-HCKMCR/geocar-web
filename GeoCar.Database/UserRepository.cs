@@ -189,6 +189,7 @@ namespace GeoCar.Database
                 Password = user.Field<string>("Password"),
                 FirstName = user.Field<string>("FirstName"),
                 Surname = user.Field<string>("Surname"),
+                Score = user.Field<int>("Score"),
                 LastScoreTime = user.Field<DateTime>("LastScoreTime")
             };
         }

@@ -43,5 +43,35 @@ namespace GeoCar.Website.Controllers
                 return Redirect($"/manage/Hire/Edit/{hire.BookingReference}");
             }
         }
+
+        public ActionResult EndHire(int hireId)
+        {
+            var hire = HireRepository.RetrieveSingleHire(hireId);
+            hire.HireUser = UserRepository.RetrieveUser(hire.UserId);
+
+            return View("EndHire", hire);
+        }
+
+        public ActionResult EndHireAction(int hireId, int endMileage)
+        {
+            var hire = HireRepository.RetrieveSingleHire(hireId);
+            if (hire == null || endMileage < hire.StartMileage)
+            {
+                return Redirect($"/manage/Hire/EndHire?hireId={hireId}");
+            }
+
+            hire = HireRepository.SetEndMileage(hireId, endMileage);
+
+            TransactionRepository.CreateTransaction(hire.UserId, endMileage - hire.StartMileage, TransactionType.Mileage);
+
+            return Redirect($"/manage/Hire/EndHireComplete?bref={hire.BookingReference}");
+        }
+
+        public ActionResult EndHireComplete(string bref)
+        {
+            var hire = HireRepository.RetrieveSingleHire(bref);
+            hire.HireUser = UserRepository.RetrieveUser(hire.UserId);
+            return View("EndHireComplete", hire);
+        }
     }
 }

@@ -1,0 +1,14 @@
+﻿@model GeoCar.Model.Hire
+
+<h1>End Game: @Model.BookingReference (@Model.HireUser.FirstName @Model.HireUser.Surname)</h1>
+
+<form name="form1" method="post" action="/manage/Hire/EndHireAction">
+    <input type="hidden" name="hireId" value="@Model.HireUserId" />
+    <fieldset>
+        <p>Initial mileage reading: <strong>@Model.StartMileage</strong></p>
+        <label for="endMileage">Final mileage reading:</label>
+        <input type="text" name="endMileage" />
+
+        <input type="submit" value="End rental @Model.BookingReference" />
+    </fieldset>
+</form>

@@ -9,6 +9,7 @@ namespace GeoCar.Model
         public string Password { set; get; }
         public string FirstName { set; get; }
         public string Surname { set; get; }
+        public int Score { get; set; }
         public DateTime LastScoreTime { get; set; }
     }
 }

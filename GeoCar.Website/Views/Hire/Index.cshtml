@@ -15,7 +15,7 @@
     </thead>
     <tbody>
         @{  var allHires = HireRepository.RetrieveAllHires(); }
-        @foreach (var hire in allHires)
+        @foreach (var hire in allHires.Where(h => h.EndMileage == 0))
         {
             var user = UserRepository.RetrieveUser(hire.UserId);
             <tr>
@@ -23,7 +23,7 @@
                 <td>@($"{user.FirstName} {user.Surname}")</td>
                 <td>@user.Email</td>
                 <td>@hire.HireStartDate to @hire.HireEndDate</td>
-                <td><input type="button" value="End Game" disabled /></td>
+                <td><input type="button" onclick="window.location = '/manage/Hire/EndHire?hireId=@(hire.HireUserId)'" value="End Game" /></td>
             </tr>
         }
         @if (allHires == null || allHires.Count == 0)

@@ -172,6 +172,8 @@
     <Content Include="Views\Hire\SingleHire.cshtml" />
     <Content Include="Views\NewUserRegister\Index.cshtml" />
     <Content Include="Views\NewUserRegister\Success.cshtml" />
+    <Content Include="Views\Hire\EndHire.cshtml" />
+    <Content Include="Views\Hire\EndHireComplete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

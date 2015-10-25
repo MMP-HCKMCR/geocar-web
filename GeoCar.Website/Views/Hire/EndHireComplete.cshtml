@@ -1,0 +1,8 @@
+﻿@model GeoCar.Model.Hire
+<h1>Hire Complete (@Model.BookingReference)</h1>
+
+<p>@Model.HireUser.FirstName @Model.HireUser.Surname returned the car, adding @(Model.EndMileage - Model.StartMileage) miles.</p>
+
+<p>Their account now has @Model.HireUser.Score points.</p>
+
+<p><a href="/manage/Hire">Back to hire management</a></p>
