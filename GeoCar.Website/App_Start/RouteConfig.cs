@@ -17,7 +17,7 @@ namespace GeoCar.Website
 
             routes.MapRoute(
                 name: "Rental Management Console",
-                url: "console/{controller}/{action}/{id}",
+                url: "manage/{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
