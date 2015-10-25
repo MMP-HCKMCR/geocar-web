@@ -20,12 +20,17 @@ namespace GeoCar.Database
                 return null;
             }
 
+            return CreateSession(user.UserId);
+        }
+
+        public static Session CreateSession(int userId)
+        {
             var parameters = new List<SqlParameter>
                 {
                     new SqlParameter
                     {
                         ParameterName = "UserId",
-                        Value = user.UserId
+                        Value = userId
                     }
                 };
 

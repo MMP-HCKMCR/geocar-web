@@ -178,6 +178,41 @@ namespace GeoCar.WcfService
             };
         }
 
+        public RegisterUserResponse RegisterUser(RegisterUserRequest request)
+        {
+            var user = UserRepository.RetrieveUser(request.EmailAddress, request.BookingReference);
+
+            if (user == null)
+            {
+                return new RegisterUserResponse
+                {
+                    Success = false,
+                    ErrorMessage = "User not Found"
+                };
+            }
+
+            user.Password = request.Password;
+
+            user = UserRepository.UpdateUser(user);
+
+            var session = SessionRepository.CreateSession(user.UserId);
+
+            if (session == null)
+            {
+                return new RegisterUserResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Session could not be Created"
+                };
+            }
+
+            return new RegisterUserResponse
+            {
+                Success = true,
+                SessionId = session.SessionId
+            };
+        }
+
         #region Private Support Methods
         private RegisterTagResponse CreateFailedTagResponse(string errorMesssage)
         {

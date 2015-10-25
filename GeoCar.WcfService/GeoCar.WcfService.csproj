@@ -68,6 +68,7 @@
     <Compile Include="Requests\GetAchievementRequest.cs" />
     <Compile Include="Requests\GetUserTransactionsRequest.cs" />
     <Compile Include="Requests\LeaderboardRequestObjects.cs" />
+    <Compile Include="Requests\RegisterUserRequest.cs" />
     <Compile Include="Requests\SessionRequestObjects.cs" />
     <Compile Include="Requests\TagRequestObjects.cs" />
     <Compile Include="Requests\UserInfoRequest.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Responses\CommonResponseObjects.cs" />
     <Compile Include="Responses\GetAchievementResponse.cs" />
     <Compile Include="Responses\GetUserTransactionsResponse.cs" />
+    <Compile Include="Responses\RegisterUserResponse.cs" />
     <Compile Include="Responses\SessionResponseObjects.cs" />
     <Compile Include="Responses\TagResponseObjects.cs" />
     <Compile Include="Responses\LeaderboardResponseObjects.cs" />

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.ServiceModel.Web;
-using System.Text;
-
 using GeoCar.WcfService.Requests;
 using GeoCar.WcfService.Responses;
 
@@ -28,6 +22,10 @@ namespace GeoCar.WcfService
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         ApiResult Logout(LogoutRequest request);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Bare, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        RegisterUserResponse RegisterUser(RegisterUserRequest request);
         #endregion
 
         #region Tagging CRUD
