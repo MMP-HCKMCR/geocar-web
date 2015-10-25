@@ -71,6 +71,7 @@ namespace GeoCar.Website.Controllers
         {
             var hire = HireRepository.RetrieveSingleHire(bref);
             hire.HireUser = UserRepository.RetrieveUser(hire.UserId);
+            hire.HireUser.Score = TransactionRepository.GetUsersPoints(hire.UserId);
             return View("EndHireComplete", hire);
         }
     }
